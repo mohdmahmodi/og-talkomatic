@@ -1,0 +1,47 @@
+/*
+**	Talkomatic Global Style Sheet
+**
+**	Author:  Steven J Zoppi
+**	Copyright (c) 2018 Steven Zoppi
+**	www.helium-neon.com
+**	
+*/
+
+@font-face {
+    font-family: talkoSS;
+    src: url(fonts/sansation_light.woff);
+ }
+ 
+ @font-face {
+    font-family: talkoSS;
+    src: url(fonts/sansation_bold.woff);
+    font-weight: bold;
+ }
+ 
+ @font-face {
+    font-family: talkoDM;
+    src: url(fonts/dited.woff);
+ }
+ 
+ * .w3-myfont {
+    font-family: talkoSS, Arial, sans-serif;
+ }
+ 
+ html, body, h1, h2, h3, h4, h5, h6 {
+     font-family: talkoSS, Arial, sans-serif;
+ }
+ 
+ body {
+     background-color: #202020;
+ }
+ 
+ .w3-bar-block .w3-bar-item {padding: 16px}
+ 
+ .invisible {
+     display: none;
+ }
+ 
+ .display_table {
+     display: table;
+ }
+ 

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Talkomatic
+
+	Author:  David R. Woolley
+	Copyright (c) 2014 Thinkofit, Inc.
+	www.thinkofit.com
+
+	This creates the HTML framework for a Talkomatic room.
+
+	Last changed 10/9/2015
+	Updated: SJZ 20180126 - Update to current code base and changes
+							to HTML / cleanup.
+-->
+
+<head>
+<!--
+ - -	Turning OFF Google Analytics
+ - -	Global site tag STUB to prevent side effects 
+ - -	in pages with gtag calls 
+ -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){}
+</script>
+
+
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>Talkomatic</title>
+
+	<link rel="icon" type="image/ico" href="favicon.ico">
+	
+	<link rel="stylesheet" href="/stylesheets/w3.css" type="text/css" media="all"/>
+	<link rel="stylesheet" href="/stylesheets/font-awesome.css" type="text/css" media="all"/>
+	<link rel="stylesheet" href="/stylesheets/global_en.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="/jqueryui/jquery-ui.min.css" type="text/css" media="all">
+
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script src="/javascripts/jquery-3.3.1.min.js"></script>
+	<script src="/jqueryui/jquery-ui.min.js"></script>
+	
+	<script src="/javascripts/global_util_en.js"></script>
+	<script src="/javascripts/w3_tools_en.js"></script>
+	<script src="/javascripts/talko_en.js"></script>
+
+</head>
+
+<body>
+	<div id="house"  class="w3-display-container">
+
+		<div id="talkohead" class="w3-text-orange">
+	
+			<h2 class="w3-black w3-text-orange w3-center">Talkomatic&trade; </h2>
+			<div id="usercount" class="w3-display-topleft w3-margin-left w3-text-yellow w3-small"><!-- User Count goes here -->
+			<div id="CPL"></div>
+			</div>
+			<button id="exit" class="w3-small w3-margin-right w3-display-topright w3-button w3-black w3-border w3-border-orange w3-round" name="exit" value="exit" type="button" onclick="exitRoom();">Leave Room</button>	
+		
+			<div id="roomhead" class="w3-cell-row w3-black w3-text-orange w3-border-blue">
+				<div id="privacy" class="w3-cell w3-center w3-text-aqua" style="width:33.3%"><!-- Privacy icon goes here --></div>
+				<div id="roomname" class="w3-cell w3-center w3-large" style="width:33.3%"><!-- room name goes here --></div>
+				<div id="sound" class="w3-cell w3-center w3-text-aqua" style="width:30.0%"><!-- Sound on/off button goes here --></div>
+				<div class="w3-cell w3-center w3-text-aqua" style="width:3.0%"><a href="#" onclick="keyhelp();"><i class="w3-margin-right fa fa-question-circle-o"></i></a></div>
+			</div><!-- roomhead -->
+	
+			<!--
+			- -	We need the assets for the disconnect to load WITH this page, 
+			- -	so we load everything and set both the class (which loads dynamically
+			- -	and causes the screen to flash) and the style(visibility:hidden) which
+			- -	happens WHILE the page is being loaded to prevent "flashing".
+			-->
+			<div id="noconnect" class="w3-xxlarge invisible w3-center w3-margin w3-container w3-border w3-border-red w3-round-xlarge" style="visibility: hidden;">
+				<span class="fa-stack fa-lg">
+				  <i class="w3-text-aqua fa fa-cloud fa-stack-1x"></i>
+				  <i class="fa fa-ban fa-stack-2x text-danger" style="color:red;"></i>
+				</span>
+				<p><i>Oh No!</i></p>
+				<p class="w3-xlarge ">We lost the connection to the server!
+				Don't Worry - We'll find it soon...
+				</p>
+			</div>
+			<!--
+			 - -	This is the area, presented only to a semi-private room host,
+			 - -	that appears when there is a queue of participants requesting
+			 - -	access.
+			 -->
+			<div id="accessrequests" class="invisible w3-large w3-center w3-padding w3-margin w3-container w3-border w3-border-white w3-border-top" style="visibility: visible;">
+				<span class="fa-lg w3-text-yellow w3-left">
+				  <i class="w3-text-aqua fa fa-cloud"></i>
+				  <b><i>Knock Knock!</i></b>
+				</span>
+				<div id="requestlist"> <!-- Javascript will insert the requests here --></div>
+			</div>
+
+		</div><!-- talkohead -->
+		
+		<div id="room" class="w3-container" style="display: block;">
+			<div id="slots" class="w3-black w3-text-orange" style="display: block;">
+				<!-- HTML for all slots is generated here by the Javascript code below. -->
+			</div><!-- slots -->
+		</div><!-- room -->
+	
+	</div><!-- house -->
+
+	<div id="invite" class="w3-container w3-medium w3-text-yellow w3-center">Invite friends to your room with this link:
+		<div id="invitelink"></div>
+		<div id="keyremind" class="invisible">(Remember to send them the room key, too!)</div>
+		<div id="invitecopy">
+			<p id="invitecopyp"></p><!-- When hovering over link, this gets replaced with advice for copying link -->
+		</div><!-- invitecopy -->
+		<div id="talkofoot" w3-include-html="footer.html"></div> 
+	</div><!-- invite -->
+
+	
+	<div id="sounds">
+		<!-- Code to play sounds gets dynamically inserted here. -->
+	</div>
+
+	<!-- Bits of text that appear under various circumstances -->
+	<div id="textbits" class="invisible">
+		<!--
+		 - -	keyhelp:  
+		 - -	shown in an asynchronous dialog box.
+		 -->
+		<div id="keyhelp_title">Talkomatic&trade; Room Guide</div><!-- Alert box title for keyhelp -->
+		<div id="keyhelp">
+			<p class="w3-align-left">
+				Each room may have up to 5 participants.  We limit the number of chatters to 5 because following 4 other chatters in "real-time" can be quite exhausting!</p>
+			<p class="w3-align-left">
+				Within a room, your conduct is expected to be respectful of others.  If you find the conduct of another chatter to be objectionable, you may "Vote Down" their behavior and if the majority of other participants do the same, that participant will be expelled from the room.
+			</p>
+			<p class="w3-align-left">
+			<i class="w3-margin-right w3-text-green fa fa-thumbs-o-up"></i>
+				<b>Thumbs-Up</b> (normal state) undoes a Thumbs-Down.
+			</p>
+			<p class="w3-align-left">
+			<i class="w3-margin-right w3-text-red fa fa-thumbs-o-down"></i>
+				<b>Thumbs-Down</b> signifies your disapproval of the conduct associated with the person.  If the majority of the <i>others</i> in the room feel the same way, the person is expelled from the room immediately.
+			</p>
+			<b>Semi-Private Room Hosts</b>
+			<p class="w3-align-left">
+				In a semi-private room, anyone can see who is chatting from the lobby.
+				When a lobby user wishes to join a semi-private room, the host is asked
+				to grant access.  This will be signified to the room host with a "Knock,
+				Knock!" dialog that will appear above all of the chatters.  Once a request
+				has been acknowledged (granted or denied), the box will close and it will 
+				then be up to the requestor as to whether or not they wish to continue to
+				enter the room.
+			</p>
+		</div>
+			
+	</div><!-- textbits -->
+
+
+	
+	<!-- This hidden span is used to calculate average pixel width per characters -->
+	<span id="ruler" style="visibility: hidden; white-space: nowrap;">abcde fghijk lmnopq rstuv wxyz</span>
+
+	<script>
+		w3.includeHTML();
+		
+		gtag('event', 'talko');
+	</script>
+
+</body>
+</html>

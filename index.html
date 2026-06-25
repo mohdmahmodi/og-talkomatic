@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+ - -	Talkomatic entry point.
+ - -
+ - -	Two jobs:
+ - -		1. Invite links arrive here as  /index?r=<zvvyCoded room name>.
+ - -		   We decode the room, remember it (the "usergo" cookie) and send
+ - -		   the visitor to the lobby, which walks them straight into the room.
+ - -		2. A plain visit to  /  or  /index  simply forwards to the lobby.
+ -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Talkomatic</title>
+<link rel="shortcut icon" type="image/ico" href="favicon.ico" />
+
+<!-- Google Analytics is intentionally disabled; this stub keeps gtag() calls harmless. -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {}
+</script>
+
+<script src="/javascripts/global_util_en.js"></script>
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    background-color: #2e2929;
+    color: #efe8e8;
+    font: 18px Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  h1 {
+    color: #ff8900;
+    font-size: 40px;
+    margin: 0 0 0.4em;
+  }
+  h1 sup {
+    font-size: 0.3em;
+    vertical-align: super;
+  }
+  a {
+    color: #00b3ff;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #efe8e8;
+  }
+  .hint {
+    color: #9a9a9a;
+    font-size: 15px;
+    margin-top: 1.5em;
+  }
+</style>
+</head>
+<body>
+  <h1>Talkomatic<sup>&trade;</sup></h1>
+  <p id="status">Loading the Talkomatic lobby&hellip;</p>
+  <p class="hint">
+    If you are not redirected automatically,
+    <a id="manual" href="/lobby_en.html">click here to continue</a>.
+  </p>
+
+  <script>
+    (function () {
+      // Pull the encoded room name out of an invite link, if present.
+      var roomParam = '';
+      var search = window.location.search || '';
+      if (search.charAt(0) === '?') {
+        var pairs = search.substring(1).split('&');
+        for (var i = 0; i < pairs.length; i++) {
+          var kv = pairs[i].split('=');
+          if (kv[0] === 'r' && kv.length > 1) {
+            try {
+              roomParam = decodeURIComponent(kv[1]);
+            } catch (e) {
+              roomParam = kv[1];
+            }
+            break;
+          }
+        }
+      }
+
+      if (roomParam) {
+        // Decode the room name and ask the lobby to take us directly to it.
+        var roomName = fromZvvyCode(roomParam).text;
+        if (roomName) {
+          zvvySaveCookie('usergo', roomName);
+          document.getElementById('status').textContent =
+            'Taking you to "' + roomName + '"…';
+          document.getElementById('manual').setAttribute('href', '/lobby_en.html');
+        }
+      }
+
+      // golobby() respects the visitor's chosen lobby (classic vs. new),
+      // defaulting to the new lobby for first-time visitors.
+      golobby();
+    })();
+  </script>
+</body>
+</html>

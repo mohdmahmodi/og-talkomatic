@@ -1,0 +1,44 @@
+/*
+**	Talkomatic Stylesheet - Standard Horizontal Slot Layout
+**
+**	Author:  David R. Woolley
+**	Copyright (c) 2014 Thinkofit, Inc.
+**	www.thinkofit.com
+**	
+**	Last changed 10/9/2015
+*/
+
+
+div#noconnect p {
+	font-family: talkoDM, Arial, sans-serif;
+}
+
+div.slot {
+	margin-left: 5px;
+	margin-right: 5px;
+	background-color: black;	/* added 8/1/14 */
+	color: black;
+	padding: 0px;
+}
+
+div.myslot {			/* Special styling for user's own slot */
+	/* border: 2px solid #ff6300; */
+	border: 3px solid #ff9000;
+	background-color: black;
+	color: black;
+	padding: 2px;
+}
+
+div.slothead {
+	padding: 2px;
+}
+
+div.slot textarea {
+	overflow: hidden;	/* hide scrollbars */
+	font-family: talkoDM, Arial, sans-serif;
+	font-size: 1.1em;
+	width: 100%;		/* backed off from 100% to keep it from overlapping right edge of slot border */
+	color: #FF9000;
+	background-color: black;
+	padding: 2px;
+}

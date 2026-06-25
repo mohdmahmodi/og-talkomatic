@@ -1,0 +1,267 @@
+/*
+**	Talkomatic Stylesheet:  Styles for Lobby
+**
+**	Author:  David R. Woolley
+**	Copyright (c) 2014 Thinkofit, Inc.
+**	www.thinkofit.com
+**	
+**	Last changed 10/3/2015
+*/
+
+@font-face {
+    font-family: talkoSS;
+    src: url(fonts/sansation_light.woff);
+ }
+ 
+ @font-face {
+    font-family: talkoSS;
+    src: url(fonts/sansation_bold.woff);
+    font-weight: bold;
+ }
+ 
+ @font-face {
+    font-family: talkoDM;
+    src: url(fonts/dited.woff);
+ }
+ 
+ * {
+    font-family: talkoSS, Arial, sans-serif;
+ }
+ 
+ button {
+     margin-right: 9px; 
+     font-weight: bold;
+     color: black;
+ }
+ 
+ div#lobby {
+     background-color: #fff8e8;
+     border-radius: 15px;
+     moz-border-radius: 15px;
+     -webkit-border-radius: 15px;
+ }
+ 
+ div#whoyouare {
+     float: left;
+     min-width:  15em;
+     padding: .7em 0 0 .7em;
+     font-size: 0.9em;
+     word-wrap: break-word;
+ }
+ .wholabel {
+     font-weight: bold;
+     color: #2E76A9;
+ }
+ .whodata {
+     font-weight: bold;
+     color: #074D7F;
+ }
+ a {
+     color: #053D64;
+     font-weight: bold;
+ }
+ a.changewho {
+     color: #C67000;
+     font-weight: bold;
+ }
+ a.question_link {
+     color: #053D64;
+     text-decoration: none;
+ }
+ 
+ div.wholine {
+     margin-bottom: .5em;
+ }
+ 
+ div#headerlinks {
+     float: right;
+     font-size: .8em;
+     padding: 1em 1em 0 0;
+ }
+ 
+ h2.lobby_section_head {
+     font-size: 1.0em;
+     text-align: center;
+     margin: 4px auto 8px;
+ }
+ p.lobby_section_subhead {
+     font-weight: bold;
+ }	
+ 
+ div#whoareyou {
+     background-color: #508fbb;
+     border: 1px solid black;
+     width: 28em;
+     margin: 0 auto 1em;
+     /* padding: 0 8px; */
+ }
+ form#loginform input{
+     width: 25em;
+     display: block;
+     margin: 1em auto;
+ }
+ button#login {
+     margin: auto 0 .5em 26em;
+     width: 5em;
+ }
+ 
+ div#fblogin_div {
+     margin: 0 auto 1em;
+     text-align: center;
+     font-weight: bold;
+ }
+ 
+ div#fbbutton {
+     margin: 1em auto;
+ }
+ 
+ div#who_goroom {
+     background-color: black;
+     color: white;
+     font-size: 1.0em;
+     text-align: center;
+     margin-bottom: 24px;
+ }
+ 
+ div#skipgo {
+     text-align: center;
+     font-weight: bold;
+     margin: 1.5em auto;
+ }
+ 
+ div#openroom {
+     background-color: #508fbb;
+     border: 1px solid black;
+     width: 26em;
+     min-height: 10em;
+     margin: 0 auto 1em;
+     padding: 0 8px;
+ }
+ #openroom > input {
+     margin-left: 2em;
+ }
+ input#roomname {
+     width: 28em;
+ }
+ input#roomkey {
+     width: 20em;
+     margin-left: 0.5em;
+ }
+ div#roomOptions {
+     margin-top: 1em;
+ }
+ 
+ div#openpriv , div#moreOpts {
+     margin: 0 0 1em 2em;
+ }
+ 
+ .ppradio, .hvradio {
+     font-weight: bold;
+ }
+ 
+ div#showMoreOpts {
+     font-size: .7em;
+ }
+ 
+ div#layoutOpts {
+ }
+ 
+ button#opengo {
+     clear: both;
+     margin-left: 2em;
+     margin-bottom: 8px;
+     width: 5em;
+ }
+ 
+ div#no_rooms_head {
+     background-color: #E0E0E0;
+     border: 1px solid black;
+     width: 30em;
+     margin: 0 auto 1em;
+     text-align: center;
+ }
+ 
+ div#chooseroom_head {
+     background-color: #E0E0E0;
+     border: 1px solid black;
+     width: 35em;
+     margin: 0 auto 1em;
+     /* padding: 8px; */
+ }
+ div#chooseroom {
+     width: 40em;
+     margin: 0 auto 1em;
+     padding-bottom: 12px;
+ }
+ 
+ 
+ div.lobby_room {
+     background-color: black;
+     margin: 16px auto;
+     padding-bottom: 5px;
+     border: 1px solid black;
+     border-radius: 10px; 
+     moz-border-radius: 10px;
+     -webkit-border-radius: 10px; 
+     font-family: talkoDM, Arial, sans-serif;
+     font-size: 1.0em;
+     color: ff90000;
+ }
+ div.lobby_roomhead {
+     background-color: #ffbA64;
+     border-top-left-radius: 8px; 
+     border-top-right-radius: 8px; 
+     moz-border-radius-topleft: 8px;
+     moz-border-radius-topright: 8px;
+     -webkit-border-top-left-radius: 8px; 
+     -webkit-border-top-right-radius: 8px; 
+     padding: 4px 4px 4px 4px;
+     color: black;
+ }
+ 
+ .lobby_roomname {
+     /* margin: 0; */
+     /* padding-bottom: 2px; */
+     font-size: 1.0em;
+     font-weight: bold;
+     vertical-align: middle;
+ }
+ 
+ .lobby_roomprivacy {
+     /* vertical-align: -40%; */
+     margin-left: .5em;
+     font-size: 0.8em;
+     vertical-align: middle;
+ }
+ 
+ .room_enter {
+     float: right;
+     font-weight: bold;
+     margin-right: 4px;
+     vertical-align: middle;
+     width: 5em;
+ }
+ 
+ div.lobby_person {
+     margin: 2px 4px 2px 4px;
+     width: auto;
+     text-align: left;
+     color: #ff9000;
+     font-size: 1.0em;
+ }
+ 
+ span.lobby_person_loc {
+     margin: 2px 4px 2px 4px;
+     width: auto;
+     text-align: right;
+     color: #ff9000;
+     font-size: 1.0em;
+ }
+ 
+ div.lobby_list_hidden {
+     color: #FF9000;
+     font-family: talkoDM;
+     text-align: center;
+     font-size: 1.4em;
+ }
+ 

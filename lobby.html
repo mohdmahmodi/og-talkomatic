@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!--
+ - -	================
+ - -	Talkomatic Lobby
+ - -	================
+ - -	
+ - -	Author:  David R. Woolley
+ - -	Copyright (c) 2014-2017 Thinkofit, Inc.
+ - -	www.thinkofit.com
+ - -	
+ - -	Copyright (c) 2018 Steven J. Zoppi
+ - -	This creates the HTML framework for the Talkomatic lobby.
+ - -	
+ - -	Last changed 10/3/2015
+ - -	SJZ20180126:	Cleanup / Documentation and pruning of all non-core
+ - -					files and code.
+ -->
+
+<head profile="http://www.w3.org/2005/10/profile">
+<!--
+ - -	Turning OFF Google Analytics
+ - -	Global site tag STUB to prevent side effects 
+ - -	in pages with gtag calls 
+ -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){}
+</script>
+
+
+	<title>Talkomatic Lobby</title>
+
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<link rel="stylesheet" href="/jqueryui/jquery-ui.min.css" type="text/css" media="all">
+	<script src="/javascripts/jquery-3.3.1.min.js"></script>
+	<script src="/jqueryui/jquery-ui.min.js"></script>
+
+	<link rel="stylesheet" href="/stylesheets/talko_h.css" type="text/css" media="all">
+	<link rel="stylesheet" href="/stylesheets/lobby.css" type="text/css" media="all">
+
+	<script src="/javascripts/global_util_en.js"></script>
+	<script src="/javascripts/w3_tools_en.js"></script>
+	<script src="/javascripts/lobby.js"></script>
+	<script src="/javascripts/revival.js"></script>
+
+	<link rel="shortcut icon" type="image/ico" href="favicon.ico">
+
+	<!-- Connect the Facebook login code to be loaded when the Facebook login link is clicked -->
+	<script>
+
+		/*
+		**	As soon as we enter a lobby, we save this as our default
+		*/
+		setCookie("newLobby", false, 365, '/');
+
+		$(document).ready(function() {
+			$("#fblogin_link").click(fbLoginLoader);
+		});
+		
+	</script>
+	
+</head>
+
+<body>
+	<div id="lobby">
+		<div id="talkohead">
+
+			<div id="whoyouare" class="invisible">
+				<div class="wholine">
+					<span id="whou" class="wholabel">Your name:</span><br/>
+					<span id="myname" class="whodata"></span>
+				</div>
+				<div class="wholine">
+					<span id="locu" class="wholabel">Location:</span><br/>
+					<span id="myloc" class="whodata"></span>
+				</div>
+				<div class="wholine">
+					<a id="changewho" class="changewho" href="#" onclick="changewho();">Change</a> or
+					<a id="signout" class="changewho" href="#" onclick="signout();">Sign Out</a>
+				</div>
+			</div><!-- whoyouare -->
+		
+
+			<div id="headerlinks">
+				<a href="about.html">About Talkomatic</a>
+				<br />
+				<a href="lobby_en.html">Try the NEW Talkomatic!</a>
+			</div><!-- headerlinks -->
+
+
+			<div id="talkotitle">
+				<h1 class="talkohead">Talkomatic&trade; Lobby</h1>
+			</div><!-- talkotitle -->
+
+		</div><!-- talkohead -->
+
+		<div id="whoareyou" class="invisible">
+			<div id="who_goroom" class="invisible"><!-- Header showing go-to room appears here --></div>
+			<h2 class="lobby_section_head">How do you want to be known?</h2>
+			<form id="loginform" name="loginform">
+				<input type="text" name="username" id="username" placeholder="Your Name" size="36" maxlength="36" onkeypress="signinViaEnter(event);">
+				<input type="text" name="userloc" id="userloc" placeholder="Location (optional)" size="36" maxlength="36" onkeypress="signinViaEnter(event);">
+				<input type="text" name="signinKey" id="signinKey" placeholder="Room Key" size="36" maxlength="36" style="display:none;">
+				<button id="login" name="login" value="login" type="button" style="margin-left: 25em;" onclick="signin(this.form.username.value, this.form.userloc.value, '', '', this.form.signinKey.value)">Sign in</button>
+			</form>
+
+			<div id="fblogin_div">
+				<a id="fblogin_link" href="#" onclick="chooseFB();">Or login with Facebook</a>
+				<div id="fblogin_action" class="invisible">
+					<fb:login-button  scope="public_profile" show-faces="true" max-rows="1" onlogin="checkFBLoginState();"></fb:login-button><!--  width="200" -->
+				</div><!-- fblogin_action -->
+			</div><!-- fblogin_div -->
+
+			<div id="skipgo" class="invisible">
+				<a href="/go.html">Skip this room - Just take me to the Talkomatic Lobby</a>
+			</div><!-- skipgo -->
+		</div><!-- whoareyou -->
+
+		<form id="lobbyform" name="lobbyform">
+
+			<div id="openroom" class="invisible">
+				<h2 class="lobby_section_head">Open a new room</h2>
+				<input type="text" name="roomname" id="roomname" placeholder="Room Name" size="36" maxlength="38"
+					 onkeydown="if (event.keyCode == 13) { 
+						go( this.form.roomname.value, $('input[name=privacy]:checked', '#lobbyform' ).val(), 
+							this.form.roomkey.value, $('input[name=horv]:checked', '#lobbyform' ).val() ); }">
+				<div id="roomOptions">
+					<div id="openpriv">
+						<input type="radio" name="privacy" id="priv-public"   value="0" checked="checked"><span class="ppradio">Public</span><br/>
+						<input type="radio" name="privacy" id="priv-private" value="2"><span class="ppradio">Private</span>
+						<span id="keylabel" class="invisible">&nbsp; Room key: </span>
+						<input type="text" name="roomkey" id="roomkey" size="36" maxlength="36" class="invisible">
+						<a href="#" onclick="keyhelp();" class="question_link">[?]</a>
+					</div><!-- openpriv -->
+
+					<div id="moreOpts">
+						<div id="showMoreOpts"><a href="#" onclick="showMoreOpts();">More options</a></div>
+						<div id="layoutOpts" class="invisible">
+							<input type="radio" name="horv" id="horv-h" value="h"><span class="hvradio">Horizontal Layout</span><br/>
+							<input type="radio" name="horv" id="horv-v" value="v"><span class="hvradio">Vertical Layout</span>
+						</div><!-- layoutOpts -->
+					</div><!-- moreOpts -->
+				</div><!-- roomOptions -->
+				<button id="opengo" name="opengo" value="opengo" type="button"  
+						onclick="go( this.form.roomname.value, $('input[name=privacy]:checked', '#lobbyform' ).val(), 
+							this.form.roomkey.value, $('input[name=horv]:checked', '#lobbyform' ).val() );">Go</button>
+			</div><!-- openroom -->
+
+			<div id="errormessage"><!-- Trouble messages like "Room Full" appear here. --></div>
+
+			<div id="chooseroom">
+				<div id="no_rooms_head" class="invisible">
+					<h3 class="no_rooms">There are no active rooms at the moment.<br/>Why not open your own?</h3>
+				</div><!-- no_rooms_head -->
+				<div id="roomlist">
+					<!-- List of active rooms and participants gets generated here -->
+				</div><!-- roomlist -->
+			</div><!-- chooseroom -->
+
+		</form>
+
+	</div><!-- lobby -->
+
+	<div id="textbits" class="invisible"><!-- Bits of text that appear under various circumstances -->
+
+		<div id="peep_hidden">Participant list hidden</div>
+		<div id="peep_empty">Welcome, traveler. Come on in!</div>
+		<div id="err_anon">You must sign in with a name before entering a room.</div>
+		<div id="err_full">Sorry, that room is full.</div>
+		<div id="err_dup">You cannot have the same name and location as another room member.</div>
+		<div id="err_key_wrong">Your key does not match the key to this private room.</div>
+		<div id="err_key_none">You must have a key to enter this private room.</div>
+		<div id="openerr_noname">Your room needs a name!</div>
+		<div id="openerr_nokey">Your private room needs a key!</div>
+		<div id="alert_title">I hate to bother you, but...</div><!-- Default title for alert popups -->
+		
+		<div id="keyhelp">
+		When you open a private room, you designate a key that anyone else will have to match EXACTLY in order 
+		to enter. Your key can be as simple or as complex as you like.
+		</div><!-- keyhelp:  shown in an alert box when user clicks the [?] link next to the Room Key form. -->
+		<div id="keyhelp_title">What is a room key?</div><!-- Alert box title for keyhelp -->
+		
+	</div><!-- textbits -->
+
+	<div id="diag" class="invisible"><!-- diagnostics may be appended here. --></div>
+
+	<div id="talkofoot" w3-include-html="footer.html"></div> 
+	<script>
+		w3.includeHTML();
+		
+		gtag('event', 'indexOld');
+	</script>
+
+</body>
+</html>

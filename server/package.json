@@ -1,0 +1,21 @@
+{
+  "name": "talkomatic-server",
+  "version": "1.0.0",
+  "description": "Real-time chat server for the Talkomatic revival (speaks the original v3 and v4 client wire protocol).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "license": "MIT"
+}

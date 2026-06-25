@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<!-- Talkomatic
+
+	Author:  David R. Woolley
+	Copyright (c) 2014 Thinkofit, Inc.
+	www.thinkofit.com
+
+	This creates the HTML framework for a Talkomatic room.
+
+	Last changed 10/9/2015
+	Updated: SJZ 20180126 - Update to current code base and changes
+							to HTML / cleanup.
+-->
+
+<head>
+<!--
+ - -	Turning OFF Google Analytics
+ - -	Global site tag STUB to prevent side effects 
+ - -	in pages with gtag calls 
+ -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){}
+</script>
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title>Talkomatic</title>
+
+	<link rel="icon" type="image/ico" href="favicon.ico">
+
+	<script src="/socket.io/socket.io.js"></script>
+
+	<link rel="stylesheet" href="/stylesheets/w3.css" type="text/css" media="all"/>
+	<link rel="stylesheet" href="/stylesheets/global_en.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="/jqueryui/jquery-ui.min.css" type="text/css" media="all">
+
+	<script src="/javascripts/jquery-3.3.1.min.js"></script>
+	<script src="/jqueryui/jquery-ui.min.js"></script>
+	<script src="/javascripts/global_util_en.js"></script>
+	<script src="/javascripts/w3_tools_en.js"></script>
+	<script src="/javascripts/talko.js"></script>
+
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+</head>
+
+<body>
+	<div id="talkohead">
+		<h1 class="talkohead">Talkomatic<sup class="tm">&trade;</sup></h1>
+		<!--
+		 - -	We need the assets for the disconnect to load WITH this page, 
+		 - -	so we load everything and set both the class (which loads dynamically
+		 - -	and causes the screen to flash) and the style(visibility:hidden) which
+		 - -	happens WHILE the page is being loaded to prevent "flashing".
+		 -->
+		<div id="noconnect" class="invisible" style="visibility: hidden;">
+			<img src="images/sadface.png" style="float:left;">
+			<p>Oh No!
+			<br /><br />We lost the connection to the server!
+			<br /><br />Don't Worry - We'll find it soon...
+			</p>
+		</div>
+	</div><!-- talkohead -->
+	<div id="house">
+		<form>
+
+			<div id="room">
+
+			<div id="roomhead">
+				<div id="sound"><!-- Sound on/off button goes here --></div>
+				<div id="privacy"><!-- Privacy icon goes here --></div>
+				<button id="exit" name="exit" value="exit" type="button" onclick="exitRoom();">Leave Room</button>
+				<h2 id="roomname" class="roomhead">&nbsp;<!-- room name goes here --></h2>
+			</div><!-- roomhead -->
+
+			<div id="slots">
+				<!-- HTML for all slots is generated here by the Javascript code below. -->
+			</div><!-- slots -->
+
+			</div><!-- room -->
+		</form>
+	</div><!-- house -->
+
+	<div id="invite">Invite friends to your room with this link:
+		<div id="invitelink"></div>
+		<div id="keyremind" class="invisible">(Remember to send them the room key, too!)</div>
+		<div id="invitecopy">
+			<p id="invitecopyp"></p><!-- When hovering over link, this gets replaced with advice for copying link -->
+		</div><!-- invitecopy -->
+	</div><!-- invite -->
+
+	<div id="talkofoot" w3-include-html="footer.html"></div> 
+
+
+	<div id="sounds">
+		<!-- Code to play sounds gets dynamically inserted here. -->
+	</div>
+
+	<!-- This hidden span is used to calculate average pixel width per characters -->
+	<span id="ruler" style="visibility: hidden; white-space: nowrap;">abcde fghijk lmnopq rstuv wxyz</span>
+
+
+	<script>
+	// Create slots javascript was here
+	</script>
+
+	<script>
+		w3.includeHTML();
+		
+		gtag('event', 'talkoOld');
+	</script>
+
+</body>
+</html>

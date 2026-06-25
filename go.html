@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+ - -	"Skip this room" target.
+ - -
+ - -	Reached from the lobby's  "Just take me to the Talkomatic Lobby"  link when
+ - -	a visitor arrived via an invite but would rather browse the lobby. We forget
+ - -	the pending room (the "usergo" cookie) and hand off to the lobby.
+ -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Talkomatic</title>
+<link rel="shortcut icon" type="image/ico" href="favicon.ico" />
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {}
+</script>
+
+<script src="/javascripts/global_util_en.js"></script>
+
+<style>
+  html, body { height: 100%; margin: 0; }
+  body {
+    background-color: #2e2929;
+    color: #efe8e8;
+    font: 18px Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  a { color: #00b3ff; text-decoration: none; }
+  a:hover { color: #efe8e8; }
+</style>
+</head>
+<body>
+  <p>Returning to the lobby&hellip; <a href="/lobby_en.html">continue</a></p>
+
+  <script>
+    (function () {
+      // Forget any pending direct-to-room entrance, then go to the lobby.
+      saveCookie('usergo', '');
+      golobby();
+    })();
+  </script>
+</body>
+</html>

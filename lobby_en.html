@@ -1,0 +1,567 @@
+<!doctype html>
+<html>
+  <head>
+    <!--
+ - -	Turning OFF Google Analytics
+ - -	Global site tag STUB to prevent side effects 
+ - -	in pages with gtag calls 
+ -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {}
+    </script>
+
+    <title>New Talkomatic&trade; User Interface</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link
+      rel="stylesheet"
+      href="/jqueryui/jquery-ui.min.css"
+      type="text/css"
+      media="all"
+    />
+    <script src="/javascripts/jquery-3.3.1.min.js"></script>
+    <script src="/jqueryui/jquery-ui.min.js"></script>
+
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
+
+    <link
+      rel="stylesheet"
+      href="/stylesheets/w3.css"
+      type="text/css"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="/stylesheets/font-awesome.css"
+      type="text/css"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="/stylesheets/global_en.css"
+      type="text/css"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="/stylesheets/lobby_en.css"
+      type="text/css"
+      media="all"
+    />
+
+    <script src="/javascripts/w3_tools_en.js"></script>
+    <script src="/javascripts/global_util_en.js"></script>
+    <script src="/javascripts/lobby_en.js"></script>
+    <script src="/javascripts/revival.js"></script>
+
+    <!-- Connect the Facebook login code to be loaded when the Facebook login link is clicked -->
+    <script>
+      /*
+       **	As soon as we enter a lobby, we save this as our default
+       */
+      setCookie("newLobby", true, 365, "/");
+
+      $(document).ready(function () {
+        $("#fblogin_link").click(fbLoginLoader);
+      });
+    </script>
+    <style type="text/css">
+      .w3-check,
+      .w3-radio {
+        width: 16px;
+        height: 16px;
+        position: relative;
+        top: 4px;
+        margin-right: 4px;
+      }
+    </style>
+    }
+  </head>
+  <body>
+    <!-- Side Navigation -->
+    <nav
+      class="w3-sidebar w3-bar-block w3-collapse w3-dark-gray w3-animate-left w3-card"
+      style="z-index: 3; width: 320px"
+      id="mySidebar"
+    >
+      <div id="hidemenu">
+        <a
+          href="javascript:void(0)"
+          onclick="w3_close()"
+          title="Hide Sidemenu"
+          class="w3-bar-item w3-button w3-hide-large w3-large"
+          >... Hide Menu<i class="w3-margin-left fa fa-caret-square-o-left"></i
+        ></a>
+      </div>
+
+      <div id="talkotitle">
+        <h3 class="w3-text-orange w3-center">
+          <b>Talkomatic&trade;</b><span class="w3-text-white"> Lobby</span>
+        </h3>
+      </div>
+      <!-- talkotitle -->
+
+      <div id="headerlinks" class="w3-bar-block w3-center">
+        <a href="about_en.html">About Talkomatic&trade;</a>
+        <br />
+        <a href="lobby.html">Classic Mode</a>
+      </div>
+      <!-- headerlinks -->
+
+      <!--
+	 - -	Section: "How do you want to be known?"
+	 -->
+
+      <div class="w3-panel w3-left-align w3-bar-item w3-sand">
+        <b>Be Known As ...<i class="w3-padding"></i></b>
+      </div>
+
+      <div id="whoareyou" class="invisible w3-container">
+        <div id="who_goroom" class="invisible">
+          <!-- Header showing go-to room appears here -->
+        </div>
+        <form id="loginform" name="loginform">
+          <input
+            type="text"
+            class="w3-input w3-border w3-margin-bottom"
+            name="username"
+            id="username"
+            placeholder="Your Name"
+            size="36"
+            maxlength="36"
+            onkeypress="signinViaEnter(event)"
+          />
+          <input
+            type="text"
+            class="w3-input w3-border w3-margin-bottom"
+            name="userloc"
+            id="userloc"
+            placeholder="Location (optional)"
+            size="36"
+            maxlength="36"
+            onkeypress="signinViaEnter(event)"
+          />
+          <input
+            type="text"
+            class="w3-input w3-border w3-margin-bottom"
+            name="signinKey"
+            id="signinKey"
+            placeholder="Room Key"
+            size="36"
+            maxlength="36"
+            style="display: none"
+          />
+          <button
+            id="login"
+            class="w3-small w3-margin w3-button w3-black w3-border w3-border-orange w3-round w3-right"
+            name="login"
+            value="login"
+            type="button"
+            style="margin-left: 25em"
+            onclick="
+              signin(
+                this.form.username.value,
+                this.form.userloc.value,
+                '',
+                '',
+                this.form.signinKey.value,
+              )
+            "
+          >
+            Sign In<i class="w3-margin-left fa fa-pencil"></i>
+          </button>
+          <div id="fblogin_div">
+            <a id="fblogin_link" href="#" onclick="chooseFB()"
+              >Or Sign In with Facebook <i class="fa fa-facebook-official"></i>
+            </a>
+            <div id="fblogin_action" class="invisible w3-text-black w3-blue">
+              <fb:login-button
+                scope="public_profile"
+                show-faces="true"
+                max-rows="1"
+                onlogin="checkFBLoginState();"
+              ></fb:login-button
+              ><!--  width="200" -->
+            </div>
+            <!-- fblogin_action -->
+          </div>
+          <!-- fblogin_div -->
+        </form>
+
+        <div id="skipgo" class="invisible">
+          <a href="/go.html"
+            >Skip this room - Just take me to the Talkomatic Lobby</a
+          >
+        </div>
+        <!-- skipgo -->
+      </div>
+      <!-- whoareyou -->
+
+      <div
+        id="whoyouare"
+        class="invisible w3-container w3-border w3-border-orange w3-margin"
+      >
+        <button
+          id="changewho"
+          class="w3-small w3-button w3-black w3-border w3-border-orange w3-round w3-right w3-margin-top w3-margin-bottom"
+          name="changeWho"
+          value="Change"
+          type="button"
+          onclick="changewho()"
+        >
+          Change<i class="w3-margin-left fa fa-random"></i>
+        </button>
+        <p>
+          <span id="whou">Your name:</span>
+          <b><span id="myname" class="w3-text-orange"></span></b>
+        </p>
+        <p>
+          <span id="locu">Location:</span>
+          <b><span id="myloc" class="w3-text-orange"></span></b>
+        </p>
+        <button
+          id="signOut"
+          class="w3-small w3-button w3-black w3-border w3-border-orange w3-round w3-right w3-margin-bottom"
+          name="signOut"
+          value="signOut"
+          type="button"
+          onclick="signOut()"
+        >
+          Sign Out<i class="w3-margin-left fa fa-sign-out"></i>
+        </button>
+      </div>
+      <!-- whoyouare -->
+
+      <!--
+		 - -	Section: "Open a Room ..."
+		 -->
+
+      <div id="createaroom" class="w3-panel w3-left-align w3-bar-item w3-sand">
+        <b>Create A Room ...<i class="w3-padding"></i></b
+        ><a
+          href="#"
+          onclick="keyhelp()"
+          class="w3-right-align w3-button w3-dark-grey"
+          ><i>Learn More</i></a
+        >
+      </div>
+
+      <div id="openroom" class="invisible">
+        <form id="lobbyform" name="lobbyform" class="w3-container">
+          <input
+            type="text"
+            class="w3-input w3-border w3-margin-bottom"
+            name="roomname"
+            id="roomname"
+            placeholder="Room Name"
+            size="36"
+            maxlength="38"
+            onkeydown="
+              if (event.keyCode == 13) {
+                go(
+                  this.form.roomname.value,
+                  $('input[name=privacy]:checked', '#lobbyform').val(),
+                  this.form.roomkey.value,
+                  $('input[name=horv]:checked', '#lobbyform').val(),
+                );
+              }
+            "
+          />
+          <div id="roomOptions">
+            <div id="openpriv" class="w3-left-align">
+              <input
+                type="radio"
+                class="w3-radio"
+                name="privacy"
+                id="priv-public"
+                value="0"
+                checked="checked"
+              /><label
+                ><span
+                  ><i
+                    class="w3-margin-right fa fa-handshake-o"
+                    style="width: 12px"
+                  ></i
+                  >Public Room</span
+                ></label
+              ><br />
+              <input
+                type="radio"
+                class="w3-radio"
+                name="privacy"
+                id="priv-semiprivate"
+                value="1"
+              /><label
+                ><span
+                  ><i
+                    class="w3-margin-right fa fa-low-vision"
+                    style="width: 12px"
+                  ></i
+                  >Semi-Private Room</span
+                ></label
+              ><br />
+              <input
+                type="radio"
+                class="w3-radio"
+                name="privacy"
+                id="priv-private"
+                value="2"
+              /><label
+                ><span
+                  ><i class="w3-margin-right fa fa-key" style="width: 12px"></i
+                  >Private Room</span
+                ></label
+              ><br />
+              <span id="keylabel" class="invisible">Room key:</span>
+              <input
+                type="text"
+                name="roomkey"
+                id="roomkey"
+                size="36"
+                maxlength="36"
+                class="invisible"
+              />
+            </div>
+            <!-- openpriv -->
+
+            <div id="layoutOpts" class="w3-left-align">
+              <br /><label>Room Layout</label><br />
+              <input
+                type="radio"
+                class="w3-radio"
+                name="horv"
+                id="horv-h"
+                value="h"
+              /><label
+                ><i
+                  class="w3-margin-right fa fa-arrows-h"
+                  style="width: 12px"
+                ></i
+                >Horizontal</label
+              ><br />
+              <input
+                type="radio"
+                class="w3-radio"
+                name="horv"
+                id="horv-v"
+                value="v"
+              /><label
+                ><i
+                  class="w3-margin-right fa fa-arrows-v"
+                  style="width: 12px"
+                ></i
+                >Vertical</label
+              ><br />
+            </div>
+            <!-- layoutOpts -->
+
+            <button
+              id="opengo"
+              class="w3-small w3-margin w3-button w3-black w3-border w3-border-orange w3-round w3-right"
+              name="opengo"
+              value="opengo"
+              type="button"
+              onclick="
+                go(
+                  this.form.roomname.value,
+                  $('input[name=privacy]:checked', '#lobbyform').val(),
+                  this.form.roomkey.value,
+                  $('input[name=horv]:checked', '#lobbyform').val(),
+                )
+              "
+            >
+              Go Chat ... <i class="fa fa-comments-o"></i>
+            </button>
+          </div>
+          <!-- roomOptions -->
+        </form>
+      </div>
+      <!-- openroom -->
+    </nav>
+    <!-- mySidebar -->
+
+    <!--
+ - -	Overlay effect when opening the side navigation on small screens
+ -->
+
+    <div
+      class="w3-overlay w3-hide-large w3-animate-opacity"
+      onclick="w3_close()"
+      style="cursor: pointer"
+      title="Close Sidemenu"
+      id="myOverlay"
+    ></div>
+    <div id="showmenu">
+      <a
+        href="javascript:void(0)"
+        onclick="w3_open()"
+        title="Open Sidemenu"
+        class="w3-button w3-gray w3-hide-large w3-large"
+        >Menu <i class="fa fa-caret-square-o-right"></i
+      ></a>
+    </div>
+
+    <!--
+ - -	Page content
+ -->
+    <div id="mainbody" class="w3-main" style="margin-left: 320px">
+      <div
+        class="w3-text-orange w3-section w3-padding-small"
+        style="text-shadow: 1px 1px 0 #444"
+      >
+        <h3>
+          <span id="loginfirst" class="invisible">Please Sign In, To </span>Join
+          A Room ...
+        </h3>
+      </div>
+
+      <div id="errormessage">
+        <!-- Trouble messages like "Room Full" appear here. -->
+      </div>
+
+      <div id="chooseroom">
+        <div id="no_rooms_head" class="invisible">
+          <h3 class="no_rooms">
+            There are no active rooms at the moment.<br />Why not open your own?
+          </h3>
+        </div>
+        <!-- no_rooms_head -->
+        <div id="roomlist">
+          <!-- List of active rooms and participants gets generated here -->
+        </div>
+        <!-- roomlist -->
+      </div>
+      <!-- chooseroom -->
+
+      <div id="diag" class="invisible">
+        <!-- diagnostics may be appended here. -->
+      </div>
+
+      <div
+        id="talkofoot"
+        class="w3-center w3-margin"
+        w3-include-html="footer.html"
+      ></div>
+    </div>
+    <!-- mainbody -->
+
+    <div id="textbits" class="invisible">
+      <!-- Bits of text that appear under various circumstances -->
+
+      <div id="peep_hidden">Participant List Hidden</div>
+      <div id="peep_empty">Welcome, Traveler. Come on in!</div>
+
+      <!-- 
+		 - -	Default title for alert popups 
+		 -->
+      <div id="alert_title">Something You Should Know ...</div>
+
+      <div id="err_anon">
+        <p>You must sign in with (at least) a name before entering a room.</p>
+      </div>
+      <div id="err_full"><p>That room is full.</p></div>
+      <div id="err_wait">
+        <p>We are still waiting for the room host to respond.</p>
+      </div>
+      <div id="err_dup">
+        <b>Be Your Unique Self!</b>
+        <p>
+          You appear to have the same name and location as another room member.
+          Please change one of those and attempt to re-enter the room.
+        </p>
+        <p class="w3-text-yellow">
+          (This can sometimes happen if you refresh the page - just wait until
+          your name drops from the list and try again.)
+        </p>
+      </div>
+
+      <div id="err_key_wrong">
+        Your key does not match the key to this private room.
+      </div>
+      <div id="err_key_none">
+        You must have a key to enter this private room.
+      </div>
+
+      <div id="openerr_noname">Your room needs a name!</div>
+      <div id="openerr_nokey">Your private room needs a key!</div>
+
+      <div id="okrequested">
+        <span class="w3-text-green"><b>Okay!</b></span>
+        <p>
+          We have requested access to the room. The Entry button will turn
+          <span class="w3-text-green"><b>GREEN</b></span> when you have been
+          granted access.
+        </p>
+      </div>
+
+      <!--
+		 - -	keyhelp:  
+		 - -	shown in an dialog box when user clicks the link next to the Room Key form.
+		 -->
+      <div id="keyhelp_title">Create My Own Room?</div>
+      <!-- Alert box title for keyhelp -->
+      <div id="keyhelp">
+        <p class="w3-align-left">
+          Each room may have up to 5 participants. We limit the number of
+          chatters to 5 because following 4 other chatters in "real-time" can be
+          quite exhausting!
+        </p>
+        <p class="w3-align-left">
+          You may Join a Room that has been created for you. The pre-existing
+          rooms are public and can be joined by up to 4 additional people.
+        </p>
+        <p class="w3-align-left">
+          You may also create your own room which has the privacy
+          characteristics you desire. Once you create a room, you may invite
+          others to join you.
+        </p>
+        <p class="w3-align-left">
+          <i class="w3-margin-right fa fa-handshake-o"></i>Public Rooms are
+          viewable by EVERYONE.
+        </p>
+        <p class="w3-align-left">
+          <i class="w3-margin-right fa fa-low-vision"></i>Semi-Private Rooms are
+          opened by a Host who then grants access to the room upon request by
+          others.
+        </p>
+        <p class="w3-align-left">
+          <i class="w3-margin-right fa fa-key"></i>Private Rooms require a Key.
+        </p>
+        <p class="w3-align-left">
+          When you open a private room, you designate a key that anyone else
+          will have to match EXACTLY in order to enter. Your key can be as
+          simple or as complex as you like, but it is limited to a maximum of 36
+          characters.
+        </p>
+      </div>
+    </div>
+    <!-- textbits -->
+
+    <script>
+      function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
+        document.getElementById("showmenu").style.display = "none";
+      }
+      function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("myOverlay").style.display = "none";
+        document.getElementById("showmenu").style.display = "block";
+      }
+
+      w3.includeHTML();
+
+      gtag("event", "index");
+    </script>
+  </body>
+</html>

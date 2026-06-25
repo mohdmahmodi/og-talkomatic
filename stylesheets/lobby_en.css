@@ -1,0 +1,33 @@
+/*
+**	Talkomatic Stylesheet:  Styles for Lobby
+**
+**	Author:  David R. Woolley
+**	Copyright (c) 2014 Thinkofit, Inc.
+**	www.thinkofit.com
+**	
+**	Last changed 10/3/2015
+*/
+
+@font-face {
+    font-family: talkoSS;
+    src: url(fonts/sansation_light.woff);
+ }
+ 
+ @font-face {
+    font-family: talkoSS;
+    src: url(fonts/sansation_bold.woff);
+    font-weight: bold;
+ }
+ 
+ @font-face {
+    font-family: talkoDM;
+    src: url(fonts/dited.woff);
+ }
+ 
+ * {
+    font-family: talkoSS, Arial, sans-serif;
+ }
+ 
+ div#whoyouare {
+     word-wrap: break-word;
+ }

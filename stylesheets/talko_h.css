@@ -1,0 +1,240 @@
+/*
+**	Talkomatic Stylesheet - Standard Horizontal Slot Layout
+**
+**	Author:  David R. Woolley
+**	Copyright (c) 2014 Thinkofit, Inc.
+**	www.thinkofit.com
+**	
+**	Last changed 10/9/2015
+*/
+
+@font-face {
+    font-family: talkoSS;
+    src: url(fonts/sansation_light.woff);
+ }
+ 
+ @font-face {
+    font-family: talkoSS;
+    src: url(fonts/sansation_bold.woff);
+    font-weight: bold;
+ }
+ 
+ @font-face {
+    font-family: talkoDM;
+    src: url(fonts/dited.woff);
+ }
+ 
+ * {
+    font-family: talkoSS, Arial, sans-serif;
+ }
+ 
+ body {
+     background-color: #000000;
+ }
+ 
+ a {
+     color: #ff9000;
+     font-weight: bold;
+ }
+ 
+ button {
+     margin-right: 9px; 
+     font-weight: bold;
+     color: black;
+     background: #ffbb64; 
+ }
+ 
+ #talkohead {
+     min-height: 3.5em;	/* to accommodate floated element */
+ }
+ 
+ div#talkotitle {
+     margin-left: auto;
+     margin-right: auto;
+     width: 20em;	/* Must specify a width to avoid having floated element push it off-center */
+ }
+ 
+ h1.talkohead {
+     font-size: 1.8em;
+     font-weight: bold;
+     text-align: center;
+     color: #ff9000;
+     margin-top: 0;
+     margin-bottom: 8px;
+ }
+ sup.tm {
+     font-size: .8em;
+     /* vertical-align: 160%; */
+ }
+ 
+ div#noconnect {
+     /* display: table;   This gets added via jQuery when Lost Connection message is to be shown */
+     background-color: #cccccc;
+     border: 4px solid #ff0000;
+     font-size: 1.5em;
+     margin: 8px auto;
+ }
+ div#noconnect p {
+     font-family: talkoDM, comic sans ms, courier new;
+     margin: 0.4em 0.5em auto 75px;
+     padding-bottom: 0.5em;
+ }
+ 
+ #house { 	/* Outside of the room (contains entire screen) */
+ }
+ 
+ #room { 	/* Talko room - contains all functionality */
+ *	width: 80%;
+     margin: 0px auto 10px;
+     border: outset 1px cyan;
+     background-color: inherit;
+ }
+ 
+ #roomhead {
+     margin: 0;
+     height: 28px;
+     background-color: white;
+     border-bottom: 4px solid;
+ }
+ 
+ h2.roomhead {
+     font-size: 1.2em;
+     font-weight: bold;
+     text-align: center;
+     vertical-align: middle;
+     color: #444444;
+     margin: auto auto auto auto;
+     padding-top: 4px;
+     width: 40em;
+ }
+ 
+ div#sound {
+     float: left;
+     margin-left: 8px;
+ }
+ 
+ div#privacy {
+     float: left;
+     margin-left: 12px;
+     margin-top: 1px;
+ }
+ 
+ div#exit {
+     float: right;
+ }
+ 
+ button#exit {
+     float: right;
+     width: auto;
+     padding: 4px;
+     vertical-align: middle
+ }
+ 
+ div.slot {
+     margin: 10px auto;
+     width: 96%;
+     background-color: white;	/* added 8/1/14 */
+     color: black;
+ }
+ 
+ div.myslot {			/* Special styling for user's own slot */
+     /* border: 2px solid #ff6300; */
+     border: 3px solid #ff9000;
+     background-color: white;
+     color: black;
+ }
+ 
+ div.slothead {
+     width: 100%;
+     color: #000000;
+     background-color: #f3f3f3;
+     font-weight: bold;
+ }
+ 
+ img.profile-icon {
+     margin-bottom: -3px;
+ }
+ 
+ .username {
+     float: left;		/* added 8/1/14 */
+     padding-left: .4em;
+ }
+ 
+ div.userloc {
+     float: right;
+     margin-right: .4em;
+     color: #508FBB;
+ }
+ 
+ div.slot textarea {
+     overflow: hidden;	/* hide scrollbars */
+     font-family: talkoDM, Courier, Times;
+     font-size: 1em;
+     width: 99.5%;		/* backed off from 100% to keep it from overlapping right edge of slot border */
+     color: #FF9000;
+     background-color: black;
+     padding: 0;
+ }
+ 
+ 
+ #talkofoot {	/* Application footer area */
+     color: #f3f3f3;
+     text-align: center;
+     font-size: .7em;
+     margin-top: 2.5em;
+     /* font-family: Arial, sans-serif; */
+ }
+ #talkofoot a {
+     color: #f3f3f3;
+     text-decoration: none;
+ }
+ #talkofoot a:hover {
+     color: blue;
+ }
+ 
+ #keyremind {	/* Reminder to send key (beneath invitation area) */
+     font-size: .7em;
+     margin-top: .5em;
+ }
+ 
+ #invitecopy {	/* popup advice for copying invite link */
+     /* background-color: yellow; */
+     /* border: 1px solid black; */
+ }
+ #invite {	/* Invitation link area */
+     color: #f3f3f3;
+     text-align: center;
+     margin: 1em auto;
+ }
+ 
+ #invitelink {
+     /*
+     ** Comes from Body
+     **    font-family: Arial, sans-serif;
+     */
+     margin-top: 0.5em;
+     font-family: talkoDM, Arial, sans-serif;
+     font-size: .75em;
+ }
+ #invitelink a {
+     text-decoration: none;
+ }
+ 
+ #invitecopyp {
+     /*
+     ** Comes from Body
+     **    font-family: Arial, sans-serif;
+     */
+     font-family: talkoDM, Arial, sans-serif;
+     font-size: .75em;
+     color: white;
+ }
+ 
+ .invisible {
+     display: none;
+ }
+ 
+ .display_table {
+     display: table;
+ }
+ 

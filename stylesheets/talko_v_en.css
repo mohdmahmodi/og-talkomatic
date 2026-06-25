@@ -1,0 +1,44 @@
+/*
+**	Talkomatic Stylesheet - Vertical Slot Layout
+**
+**	Author:  David R. Woolley
+**	Copyright (c) 2014 Thinkofit, Inc.
+**	www.thinkofit.com
+**	
+**	Last changed 10/9/2015
+*/
+
+div#noconnect p {
+	font-family: talkoDM, Arial, sans-serif;
+}
+
+div.slot {
+	float: left;
+	/* margin: 10px auto; */
+	padding: 2px;
+	color: black;
+	background-color: white;
+}
+
+div.myslot {	/* Special styling for user's own slot */
+	border: 2px solid #ff9000;
+	background-color: white;
+	color: black;
+}
+
+div.slothead {
+	height: 3.5em;
+	border-left:  2px solid #808080;
+	border-right: 2px solid #808080;
+}
+
+div.slot textarea {
+	overflow: hidden;	/* hide scrollbars */
+	font-family: talkoDM, Arial, sans-serif;
+	font-size: 1.1em;
+	width: 100%;	/* backed off from 100% to keep it from overlapping right edge of slot border */
+	color: #FF9000;
+	background-color: black;
+	padding: 1px;
+}
+
