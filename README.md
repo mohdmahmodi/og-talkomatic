@@ -14,10 +14,6 @@ Everyone has their own area of the screen. Nothing is saved.
 
 ![The lobby](docs/screenshots/lobby.png)
 
-> The images in this README are placeholders. Replace the files in
-> `docs/screenshots/` with real captures from your running site and they will
-> show up here.
-
 ## Run it locally
 
 You need [Node.js](https://nodejs.org/) 16 or newer.
