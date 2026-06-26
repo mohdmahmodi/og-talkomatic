@@ -450,9 +450,7 @@ function freshRooms (callWhenDone) {
 
 	var RoomRequest = new XMLHttpRequest();
 	var parms = constructParms();
-	
-	console.log(parms);
-	
+
 	RoomRequest.open ("GET", "/roominfo.json/" + parms, true);
 	RoomRequest.onreadystatechange = function () {
 	if (RoomRequest.readyState === 4 && RoomRequest.status === 200) {

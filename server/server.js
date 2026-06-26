@@ -440,10 +440,35 @@ app.get(["/roominfo.json", "/roominfo.json/"], (req, res) => {
 app.use("/server", (req, res) => res.status(404).end());
 
 // All remaining paths are static client assets from the project root.
+//
+// Caching matters a lot here: each page pulls in jQuery and jQuery UI (about
+// 600 KB together) plus the fonts. Those third-party files never change, so we
+// let the browser keep them for a month instead of re-fetching them on every
+// enter/leave. Our own HTML, JS, and CSS are told to revalidate so edits and
+// deploys show up right away.
 app.use(
   express.static(PUBLIC_DIR, {
     index: "index.html",
     extensions: ["html"],
+    setHeaders: (res, filePath) => {
+      const p = filePath.replace(/\\/g, "/");
+      if (/\.html$/i.test(p)) {
+        res.setHeader("Cache-Control", "no-cache");
+      } else if (
+        /\/jqueryui\//i.test(p) ||
+        /jquery-3\.3\.1\.min\.js$/i.test(p) ||
+        /\/stylesheets\/(w3|font-awesome)\.css$/i.test(p) ||
+        /\/stylesheets\/fonts\//i.test(p)
+      ) {
+        // Third-party libraries and fonts: safe to cache for a long time.
+        res.setHeader("Cache-Control", "public, max-age=2592000"); // 30 days
+      } else if (/\/(images|sounds)\//i.test(p)) {
+        res.setHeader("Cache-Control", "public, max-age=86400"); // 1 day
+      } else {
+        // Our own JS and CSS: revalidate every load (fast 304, never stale).
+        res.setHeader("Cache-Control", "no-cache");
+      }
+    },
   }),
 );
 
@@ -452,9 +477,20 @@ app.use(
 // ---------------------------------------------------------------------------
 
 const server = http.createServer(app);
+
+// Turn off Nagle's algorithm so a single keystroke goes out immediately instead
+// of waiting to be batched with later bytes.
+server.on("connection", (socket) => socket.setNoDelay(true));
+
 const io = socketIO(server, {
   serveClient: true, // serve a matching client at /socket.io/socket.io.js
   maxHttpBufferSize: 1e6,
+  perMessageDeflate: false, // chat messages are tiny; skip compression overhead
+  // Notice a dropped connection in about 10 to 20 seconds instead of the ~45s
+  // default. This is what clears out someone who closed the tab or swiped the
+  // app away on a phone without a clean exit.
+  pingInterval: 10000,
+  pingTimeout: 10000,
   cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
