@@ -58,9 +58,14 @@ const socketIO = require("socket.io");
 
 // Port resolution order: $PORT, then a "--port N" argument, then 3000.
 const argPortIdx = process.argv.indexOf("--port");
+
 const argPort =
-  argPortIdx !== -1 ? parseInt(process.argv[argPortIdx + 1], 10) : NaN;
-const PORT = process.env.PORT || (Number.isFinite(argPort) ? argPort : 4001);
+  argPortIdx !== -1
+    ? Number.parseInt(process.argv[argPortIdx + 1], 10)
+    : Number.NaN;
+
+const PORT =
+  Number(process.env.PORT) || (Number.isFinite(argPort) ? argPort : 3000);
 const PUBLIC_DIR = path.join(__dirname, ".."); // project root holds all client assets
 
 const MAX_SLOTS = 5; // talkers per room (must match the client)
@@ -494,6 +499,17 @@ const io = socketIO(server, {
   cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
+app.get("/health", (_req, res) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: Math.floor(process.uptime()),
+    rooms: rooms.size,
+    users: users.size,
+    connectedSockets: io.engine.clientsCount,
+    timestamp: new Date().toISOString(),
+  });
+});
+
 io.on("connection", (socket) => {
   socket._msgWindowStart = Date.now();
   socket._msgCount = 0;
@@ -919,16 +935,12 @@ function expel(room, slot) {
 // Boot
 // ---------------------------------------------------------------------------
 
-// HOST is left undefined by default (listen on all interfaces, convenient for
-// local development). Behind a reverse proxy, set HOST=127.0.0.1 so the app is
-// only reachable through the proxy.
-const HOST = process.env.HOST || undefined;
+// Inside Docker, listen on all container interfaces so Coolify's reverse proxy
+// can reach the application through the internal Docker network.
+const HOST = process.env.HOST || "0.0.0.0";
 
 server.listen(PORT, HOST, () => {
-  console.log("=====================================");
-  console.log(" Talkomatic server is running");
-  console.log(`   http://${HOST || "localhost"}:${PORT}`);
-  console.log("=====================================");
+  console.log(`Talkomatic running at http://${HOST}:${PORT}`);
 });
 
 module.exports = { app, server, io };
